@@ -14,6 +14,8 @@ const HUMAN_HIT = [
 
 const harts = ['Dáinn', 'Dvalinn', 'Duneyrr', 'Duraþrór'].map((name, i) => ({
   id: 'hart' + i,
+  voice: 'hart', // red-deer alarm barks, each hart at its own pitch
+  pitch: [1, 0.92, 1.08, 0.96][i],
   name,
   title: 'One of the four harts that graze upon the World-Ash',
   kind: 'ground',
@@ -45,6 +47,7 @@ const harts = ['Dáinn', 'Dvalinn', 'Duneyrr', 'Duraþrór'].map((name, i) => ({
 export const SPECIES = [
   {
     id: 'huginn',
+    voice: 'raven', // see sounds.js
     name: 'Huginn',
     title: "Odin's raven of Thought",
     kind: 'fly',
@@ -63,6 +66,7 @@ export const SPECIES = [
   },
   {
     id: 'muninn',
+    voice: 'ravenMemory', // see sounds.js
     name: 'Muninn',
     title: "Odin's raven of Memory",
     kind: 'fly',
@@ -81,6 +85,7 @@ export const SPECIES = [
   },
   {
     id: 'hraesvelgr',
+    voice: 'eagle', // see sounds.js
     name: 'Hræsvelgr',
     title: 'The corpse-swallower, eagle whose wings make the wind',
     kind: 'fly',
@@ -104,6 +109,7 @@ export const SPECIES = [
   },
   {
     id: 'audumbla',
+    voice: 'cow', // see sounds.js
     name: 'Auðumbla',
     title: 'The primeval cow, nursemaid of giants',
     kind: 'ground',
@@ -121,6 +127,7 @@ export const SPECIES = [
   },
   {
     id: 'fylgja',
+    voice: 'fox', // see sounds.js
     name: 'Fylgja',
     title: 'A fetch-spirit in animal form, herald of doom',
     kind: 'spirit',
@@ -138,6 +145,7 @@ export const SPECIES = [
   },
   {
     id: 'vordr',
+    voice: 'ghost', // see sounds.js
     name: 'Vörðr',
     title: 'The warden-spirit that follows a soul',
     kind: 'spirit',
@@ -157,6 +165,7 @@ export const SPECIES = [
   },
   {
     id: 'troll',
+    voice: 'troll', // see sounds.js
     name: 'Troll',
     title: 'Mountain-dweller who hurls boulders at trespassers',
     kind: 'ground',
@@ -177,6 +186,7 @@ export const SPECIES = [
   },
   {
     id: 'vargr',
+    voice: 'wolf', // see sounds.js
     name: 'Vargr',
     title: 'The great wolf of the outlaws',
     kind: 'ground',
@@ -194,6 +204,7 @@ export const SPECIES = [
   ...harts,
   {
     id: 'kraken',
+    voice: 'kraken', // see sounds.js
     name: 'Kraken',
     title: 'The sea-monster that drags men to the deep',
     kind: 'water',
@@ -215,6 +226,7 @@ export const SPECIES = [
   },
   {
     id: 'hildisvini',
+    voice: 'battleBoar', // see sounds.js
     name: 'Hildisvíni',
     title: "Freyja's armoured battle-swine",
     kind: 'ground',
@@ -231,6 +243,7 @@ export const SPECIES = [
   },
   {
     id: 'landvaettir',
+    voice: 'landSpirit', // see sounds.js
     name: 'Landvættir',
     title: 'The guardian spirits of the land itself',
     kind: 'spirit',
@@ -247,6 +260,7 @@ export const SPECIES = [
   },
   {
     id: 'heidrun',
+    voice: 'meadGoat', // see sounds.js
     name: 'Heiðrún',
     title: 'The goat whose udders flow with mead',
     kind: 'ground',
@@ -263,6 +277,7 @@ export const SPECIES = [
   },
   {
     id: 'marmennill',
+    voice: 'merman', // see sounds.js
     name: 'Marbendill',
     title: 'The merman of the river, keeper of secrets',
     kind: 'water',
@@ -283,6 +298,7 @@ export const SPECIES = [
   },
   {
     id: 'fafnir',
+    voice: 'dragon', // see sounds.js
     name: 'Fáfnir',
     title: 'The dwarf turned dragon, breather of venom',
     kind: 'ground',
@@ -307,6 +323,7 @@ export const SPECIES = [
   },
   {
     id: 'ratatoskr',
+    voice: 'squirrel', // see sounds.js
     name: 'Ratatoskr',
     title: 'The gossiping squirrel of the World-Ash',
     kind: 'ground',
@@ -324,6 +341,7 @@ export const SPECIES = [
   },
   {
     id: 'gullinbursti',
+    voice: 'goldenBoar', // see sounds.js
     name: 'Gullinbursti',
     title: "Freyr's golden-bristled boar that shines in the dark",
     kind: 'ground',
@@ -340,6 +358,7 @@ export const SPECIES = [
   },
   {
     id: 'garmr',
+    voice: 'hound', // see sounds.js
     name: 'Garmr',
     title: 'The blood-stained hound that guards the gates of Hel',
     kind: 'ground',
@@ -357,6 +376,7 @@ export const SPECIES = [
   },
   {
     id: 'nidhoggr',
+    voice: 'nidhoggr', // see sounds.js
     name: 'Níðhöggr',
     title: 'The dread-biter who gnaws the roots of the World-Ash',
     kind: 'serpent',
@@ -373,6 +393,7 @@ export const SPECIES = [
   },
   {
     id: 'lyngbakr',
+    voice: 'whale', // see sounds.js
     name: 'Lyngbakr',
     title: 'The island-whale that drowns sailors',
     kind: 'water',
@@ -397,6 +418,7 @@ export const SPECIES = [
   },
   {
     id: 'lindworm',
+    voice: 'lindworm', // see sounds.js
     name: 'Lindworm',
     title: 'The wingless, two-legged serpent-dragon',
     kind: 'serpent',
@@ -413,6 +435,7 @@ export const SPECIES = [
   },
   {
     id: 'eikthyrnir',
+    voice: 'stag', // see sounds.js
     name: 'Eikþyrnir',
     title: 'The stag on Valhalla, from whose antlers all rivers flow',
     kind: 'ground',
@@ -430,6 +453,7 @@ export const SPECIES = [
   },
   {
     id: 'jormungandr',
+    voice: 'seaSerpent', // see sounds.js
     name: 'Jörmungandr',
     title: 'The World Serpent, whose coils encircle Midgard',
     kind: 'serpent',
@@ -450,6 +474,7 @@ export const SPECIES = [
   },
   {
     id: 'brunnmigi',
+    voice: 'brunnmigi', // see sounds.js
     name: 'Brunnmigi',
     title: 'The foul creature that defiles springs and wells',
     kind: 'ground',
@@ -468,6 +493,7 @@ export const SPECIES = [
   },
   {
     id: 'saehrimnir',
+    voice: 'feastBoar', // see sounds.js
     name: 'Sæhrímnir',
     title: 'The boar slain and reborn each day for the feast of the slain',
     kind: 'ground',
@@ -485,6 +511,7 @@ export const SPECIES = [
   },
   ...['Tanngrisnir', 'Tanngnjóstr'].map((name, i) => ({
     id: 'thorgoat' + i,
+    voice: i ? 'barerGoat' : 'grinderGoat', // teeth-barer / teeth-grinder
     name,
     title: i ? "Thor's goat, Teeth-grinder" : "Thor's goat, Teeth-barer",
     kind: 'ground',
@@ -509,4 +536,5 @@ for (const s of SPECIES) {
   s.opts ??= {}
   s.hit ??= []
   s.flap ??= 6
+  s.pitch ??= 1
 }

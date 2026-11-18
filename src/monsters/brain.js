@@ -4,6 +4,7 @@ import { SPECIES } from './species'
 import { heightAt, waterDepth, waterLevelAt, isWater, LAKES, ASH_TREE, PLAY_RADIUS, slopeAt, FALL_X } from '../world/terrain'
 import { findSpot, resolveCollisions, MEADOW, spawnRand } from '../world/placement'
 import { sfx } from '../audio'
+import { creatureSound } from './sounds'
 import { spawnProjectile } from '../components/Projectiles'
 
 // ------------------------------------------------------------------ spawning by habitat
@@ -151,7 +152,7 @@ export function hitMonster(m, dmg, point) {
   if (m.state !== 'alive') return
   m.hp -= dmg
   m.hitFlash = 0.18
-  if (!m.hunting) wake(m, 'provoked')
+  if (!m.hunting) wake(m, 'provoked', true)
   sfx.hit()
   if (G.fx) G.fx.emit(point, m.def.blood, 12, 5)
   if (m.hp <= 0) {
@@ -159,9 +160,11 @@ export function hitMonster(m, dmg, point) {
     m.state = 'dying'
     m.deathT = 0
     m.attackT = -1
-    sfx.death()
+    creatureSound(m, 'death')
     if (G.fx) G.fx.emit(point, m.def.blood, 40, 8)
     useGame.getState().addKill(m.name)
+  } else {
+    creatureSound(m, 'hurt')
   }
 }
 
@@ -194,10 +197,11 @@ function tryRanged(m, dist, dt) {
     if (def.ranged.type === 'rock') {
       m.throwT = 0.8
       m.throwFired = false
+      creatureSound(m, 'special')
     } else if (def.ranged.type === 'poison') {
       m.breathT = 1.3
       m.breathEmit = 0
-      sfx.roar(true)
+      creatureSound(m, 'special')
     }
   }
   if (m.throwT > 0) {
@@ -366,7 +370,7 @@ function moveFly(m, dt, dx, dz, dist, idle) {
     if (dist < 42 && m.cooldown <= 0 && f.t > 2) {
       f.mode = 'dive'
       f.t = 0
-      sfx.roar(def.big)
+      creatureSound(m, 'attack')
     }
   } else if (f.mode === 'dive') {
     tx = P.pos.x
@@ -424,12 +428,13 @@ function updateTrail(m) {
 }
 
 // ------------------------------------------------------------------ waking, wandering, the hunt director
-function wake(m, reason) {
+function wake(m, reason, silent = false) {
   if (m.hunting || m.state !== 'alive') return
   m.hunting = true
   m.noticed = true
   m.cooldown = Math.max(m.cooldown, 0.8)
-  sfx.roar(m.def.big)
+  m.callT = 8 + Math.random() * 6
+  if (!silent) creatureSound(m, 'call')
   const g = useGame.getState()
   if (g.phase === 'playing')
     g.message(reason === 'provoked' ? `You have roused ${m.name}!` : `${m.name} has caught your scent…`)
@@ -524,6 +529,15 @@ export function updateMonster(m, dt) {
     if (pdist < reach && (def.kind === 'fly' || dy < 12)) wake(m, 'provoked')
   }
 
+  // hunters call out every so often while they close in, so you can hear them coming
+  if (m.hunting) {
+    m.callT -= dt
+    if (m.callT <= 0) {
+      m.callT = 9 + Math.random() * 8
+      if (m.attackT < 0) creatureSound(m, 'call')
+    }
+  }
+
   // hunters head for the player; resting creatures roam their habitat
   let dx = pdx
   let dz = pdz
@@ -558,7 +572,7 @@ export function updateMonster(m, dt) {
   if (m.hunting) {
     if (def.kind !== 'fly' && m.attackT < 0 && m.cooldown <= 0 && pdist < def.attackRange && useGame.getState().phase === 'playing') {
       startAttack(m)
-      if (def.big) sfx.roar(true)
+      creatureSound(m, 'attack')
     }
     tryRanged(m, pdist, dt)
   }

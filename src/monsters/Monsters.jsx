@@ -3,6 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { G, useGame } from '../store'
 import { createMonsters, updateMonster, rayPick, updateDirector, huntingCount } from './brain'
+import { creatureSound } from './sounds'
 
 const FLASH = new THREE.Color('#ff2020')
 const camDir = new THREE.Vector3()
@@ -110,6 +111,7 @@ export function Monsters() {
   const setTotal = useGame((s) => s.setTotal)
   const setTarget = useGame((s) => s.setTarget)
   const { camera } = useThree()
+  const ambient = useRef(8)
 
   useEffect(() => {
     G.monsters = monsters
@@ -123,7 +125,17 @@ export function Monsters() {
     const phase = useGame.getState().phase
     if (phase !== 'playing' && phase !== 'dead') return
     const dt = Math.min(delta, 0.05)
-    if (phase === 'playing') updateDirector(dt)
+    if (phase === 'playing') {
+      updateDirector(dt)
+      // the night is alive: now and then a resting beast somewhere nearby calls out
+      ambient.current -= dt
+      if (ambient.current <= 0) {
+        ambient.current = 14 + Math.random() * 20
+        const P = G.player.pos
+        const near = monsters.filter((m) => m.state === 'alive' && !m.hunting && m.pos.distanceTo(P) < 140)
+        if (near.length) creatureSound(near[Math.floor(Math.random() * near.length)], 'call')
+      }
+    }
     for (const m of monsters) updateMonster(m, dt)
     useGame.getState().setHunting(huntingCount())
     camera.getWorldDirection(camDir)

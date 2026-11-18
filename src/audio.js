@@ -10,10 +10,23 @@ function ensure() {
     ctx = new AC()
     master = ctx.createGain()
     master.gain.value = 0.5
-    master.connect(ctx.destination)
+    // soft limiter so stacked roars never clip
+    const comp = ctx.createDynamicsCompressor()
+    comp.threshold.value = -14
+    comp.knee.value = 10
+    comp.ratio.value = 6
+    comp.attack.value = 0.004
+    comp.release.value = 0.2
+    master.connect(comp).connect(ctx.destination)
   }
   if (ctx.state === 'suspended') ctx.resume()
   return ctx
+}
+
+// shared context + master bus for the creature voices (src/monsters/sounds.js)
+export function audioOut() {
+  if (!ensure()) return null
+  return { ctx, master }
 }
 
 function noiseBuffer(seconds) {

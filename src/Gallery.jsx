@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { SPECIES } from './monsters/species'
+import { previewVoice } from './monsters/sounds'
 
 // Bestiary viewer: open the game with ?gallery to inspect every creature model.
 const COLS = 6
@@ -49,8 +50,15 @@ function Creature({ m, index }) {
       <group rotation-y={serpent ? 0 : m.yaw} scale={serpent ? 1 : m.def.scale}>
         <Model m={m} o={m.def.opts} />
       </group>
-      <Html position={[0, 0, -5]} center style={{ color: '#f4ead2', font: '600 12px Inter, sans-serif', whiteSpace: 'nowrap', textShadow: '0 1px 3px #000' }}>
-        {m.def.name}
+      <Html position={[0, 0, -5]} center style={{ color: '#f4ead2', font: '600 12px Inter, sans-serif', whiteSpace: 'nowrap', textShadow: '0 1px 3px #000', textAlign: 'center' }}>
+        <div>{m.def.name}</div>
+        <div style={{ display: 'flex', gap: 4, marginTop: 3, justifyContent: 'center' }}>
+          {['call', 'attack'].map((k) => (
+            <button key={k} className="voice-btn" onClick={() => previewVoice(m.def, k)}>
+              ♪ {k}
+            </button>
+          ))}
+        </div>
       </Html>
     </group>
   )

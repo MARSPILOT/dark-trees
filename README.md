@@ -9,7 +9,10 @@ npm install
 npm run dev        # then open http://localhost:5173
 ```
 
-Open `http://localhost:5173/?gallery` to inspect every creature model in the bestiary viewer.
+Open `http://localhost:5173/?gallery` to inspect every creature model in the bestiary viewer — click ♪ call / ♪ attack under a creature to hear its voice.
+
+## Creature voices
+Every creature has its own synthesized call, attack, hurt and death sounds (`src/monsters/sounds.js`, assigned per species via `voice` in `species.js`). Each voice is modelled on the real animal behind the myth — raven croaks, sea-eagle barking calls, cattle moos, wolf howls, deer barks and stag roars with falling formants, boar grunts and squeals, trilled goat bleats, squirrel rattles, humpback moans, viper-like hisses, a fox's scream — and the saga creatures get voices from their legends (Garm baying before Gnipahellir, the merman's three laughs). Sounds are positioned in stereo, muffled with distance, and resting beasts call out now and then in the night.
 
 ## Controls
 WASD move · Shift sprint · Space jump/swim · Mouse look · Hold left-click to draw, release to shoot · E open chest · Esc pause
